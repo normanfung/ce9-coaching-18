@@ -1,4 +1,4 @@
-name: Full Infra + App Deploy
+name: Base Infra
 
 on:
   workflow_dispatch:
