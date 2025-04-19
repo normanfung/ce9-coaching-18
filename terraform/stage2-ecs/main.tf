@@ -130,10 +130,18 @@ resource "aws_ecs_task_definition" "multi_app_task" {
         }
       ]
       essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/${local.prefix}-multi-app"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "s3-app"
+        }
+      }
       environment = [
         {
           name  = "AWS_REGION"
-          value = "us-east-1"
+          value = var.aws_region
         },
         {
           name  = "BUCKET_NAME"
@@ -150,10 +158,18 @@ resource "aws_ecs_task_definition" "multi_app_task" {
         }
       ]
       essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/${local.prefix}-multi-app"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "sqs-app"
+        }
+      }
       environment = [
         {
           name  = "AWS_REGION"
-          value = "us-east-1"
+          value = var.aws_region
         },
         {
           name  = "QUEUE_NAME"
