@@ -101,7 +101,7 @@ resource "aws_iam_policy" "ecs_app_policy" {
           "sqs:DeleteMessage",
           "sqs:GetQueueAttributes"
         ],
-        Resource = data.terraform_remote_state.stage1.outputs.sqs_arn
+        Resource = data.terraform_remote_state.stage1.outputs.sqs_queue_arn
       }
     ]
   })
