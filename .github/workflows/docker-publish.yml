@@ -33,6 +33,9 @@ jobs:
     - name: Set ECR repo base
       run: echo "ECR_BASE=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
 
+    - name: Set ECR repo name
+      run: echo "ECR_REPO_NAME=${{ vars.ECR_REPO_NAME }}" >> $GITHUB_ENV
+
     # Step 5: Build and push both apps
     - name: Build and push Docker images for s3-app and sqs-app
       run: |
