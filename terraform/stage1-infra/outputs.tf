@@ -19,27 +19,27 @@ output "s3_ecr_repo_url" {
 
 output "sqs_ecr_repo_name" {
   description = "The name of the SQS ECR repository"
-  value       = aws_ecr_repository.s3_app_repo.name
+  value       = aws_ecr_repository.sqs_app_repo.name
 }
 
 output "sqs_ecr_repo_url" {
   description = "The full URI of the SQS ECR repository"
-  value       = aws_ecr_repository.s3_app_repo.repository_url
+  value       = aws_ecr_repository.sqs_app_repo.repository_url
 }
 
 output "s3_bucket_name" {
   description = "The name of the S3 bucket"
   value       = aws_s3_bucket.s3.bucket
-  
+
 }
 
 output "sqs_queue_name" {
   description = "The name of the SQS queue"
-  value       = aws_sqs_queue.sqs_queue.name  
+  value       = aws_sqs_queue.sqs_queue.name
 }
 
 output "sqs_queue_arn" {
   description = "The ARN of the SQS queue"
-  value       = aws_sqs_queue.sqs_queue.arn 
+  value       = aws_sqs_queue.sqs_queue.arn
 }
 
