@@ -9,7 +9,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "sctp-ce9-tfstate"
-    key    = "norman-ce9-module3-coaching16-stage2-ECS.tfstate" # Replace the value of key to <your suggested name>.tfstat   
+    key    = "norman-ce9-module3-coaching2-stage2-infra.tfstate" # Replace the value of key to <your suggested name>.tfstat   
     region = "us-east-1"
   }
 }
@@ -18,7 +18,7 @@ data "terraform_remote_state" "stage1" {
   backend = "s3"
   config = {
     bucket = "sctp-ce9-tfstate"
-    key    = "norman-ce9-module3-coaching16-stage1-infra.tfstate" # Replace the value of key to <your suggested name>.tfstat   
+    key    = "norman-ce9-module3-coaching2-stage1-infra.tfstate" # Replace the value of key to <your suggested name>.tfstat   
     region = "us-east-1"
   }
 }
