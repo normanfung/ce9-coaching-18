@@ -33,6 +33,13 @@ output "s3_bucket_name" {
 
 }
 
+
+output "s3_bucket_arn" {
+  description = "The name of the S3 bucket"
+  value       = aws_s3_bucket.s3.arn
+
+}
+
 output "sqs_queue_name" {
   description = "The name of the SQS queue"
   value       = aws_sqs_queue.sqs_queue.name

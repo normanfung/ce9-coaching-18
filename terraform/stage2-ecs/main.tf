@@ -91,7 +91,7 @@ resource "aws_iam_policy" "ecs_app_policy" {
           "s3:PutObject",
           "s3:GetObject"
         ],
-        Resource = "${data.terraform_remote_state.stage1.outputs.s3_bucket_name}/*"
+        Resource = "${data.terraform_remote_state.stage1.outputs.s3_bucket_arn}/*"
       },
       {
         Effect = "Allow",
