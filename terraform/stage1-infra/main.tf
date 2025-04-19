@@ -57,3 +57,16 @@ resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
+
+resource "aws_s3_bucket" "s3" {
+  bucket = "${local.prefix}-s3"
+  force_destroy = true
+
+  tags = {
+    Name = "${local.prefix}-s3"
+  }
+}
+
+resource "aws_sqs_queue" "sqs_queue" {
+  name = "${local.prefix}-sqs-queue"
+}
