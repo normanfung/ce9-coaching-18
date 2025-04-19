@@ -48,25 +48,25 @@ jobs:
         ECR_BASE: ${{ env.ECR_BASE }}
         ECR_REPO_NAME: ${{ env.ECR_REPO_NAME }}
 
-    # # Step 6: Setup Terraform
-    # - name: Setup Terraform
-    #   uses: hashicorp/setup-terraform@v2
+    # Step 6: Setup Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
 
-    # # Step 7: Terraform Init
-    # - name: Terraform Init
-    #   working-directory: ./terraform/stage2-ecs
-    #   run: terraform init
+    # Step 7: Terraform Init
+    - name: Terraform Init
+      working-directory: ./terraform/stage2-ecs
+      run: terraform init
 
-    # # Step 8: Terraform Plan with both app image URIs
-    # - name: Terraform Plan
-    #   working-directory: ./terraform/stage2-ecs
-    #   run: |
-    #     terraform plan \
-    #       -var="s3_app_image=${{ env.ECR_BASE }}/${{ env.ECR_REPO_NAME }}-s3-app:${{ github.sha }}" \
-    #       -var="sqs_app_image=${{ env.ECR_BASE }}/${{ env.ECR_REPO_NAME }}-sqs-app:${{ github.sha }}" \
-    #       -out=tfplan
+    # Step 8: Terraform Plan with both app image URIs
+    - name: Terraform Plan
+      working-directory: ./terraform/stage2-ecs
+      run: |
+        terraform plan \
+        -var="s3_app_image=${{ env.ECR_BASE }}/${{ env.ECR_REPO_NAME }}-s3-app:${{ github.sha }}" \
+        -var="sqs_app_image=${{ env.ECR_BASE }}/${{ env.ECR_REPO_NAME }}-sqs-app:${{ github.sha }}" \
+        -out=tfplan
 
-    # # Step 9: Terraform Apply
-    # - name: Terraform Apply
-    #   working-directory: ./terraform/stage2-ecs
-    #   run: terraform apply -auto-approve tfplan
+    # Step 9: Terraform Apply
+    - name: Terraform Apply
+      working-directory: ./terraform/stage2-ecs
+      run: terraform apply -auto-approve tfplan
