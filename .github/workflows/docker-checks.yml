@@ -1,0 +1,79 @@
+name: CI Checks
+run-name: Running Terraform Checks by ${{ github.actor }}
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Initial-Checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting initiator name
+        run: echo "Workflow initiated by ${{ github.actor }} from branch ${{ github.ref_name }}"
+
+  snyk-checks:
+    name: Snyk Security Scans
+    runs-on: ubuntu-latest
+    needs: Initial-Checks  # optional but recommended for consistency
+    outputs:
+      status: ${{ job.status }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Run Snyk Code Scan And Check Snyk Scan Results
+        run: snyk code test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Open Source Test
+        run: snyk test
+
+      - name: Run Snyk Code Scan And Check Snyk Scan Results
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: "--report --severity-threshold=high --scan=resource-changes"
+
+  summary:
+    name: 📋 CI Summary
+    needs: [snyk-checks]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Adding markdown
+        run: |
+          SNYK_STATUS=${{ needs.snyk-checks.outputs.status }}
+
+          echo '## 🚀 Preparing Build Summary 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+
+          echo "| Job Name        | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| snyk-checks     | $SNYK_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+
+          echo "## Job ran by: **${{ github.actor }}**" >> $GITHUB_STEP_SUMMARY
