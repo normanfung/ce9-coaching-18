@@ -193,8 +193,8 @@ resource "aws_ecs_task_definition" "multi_app_task" {
           value = var.aws_region
         },
         {
-          name  = "QUEUE_NAME"
-          value = data.terraform_remote_state.stage1.outputs.sqs_queue_name
+          name  = "QUEUE_URL"
+          value = data.terraform_remote_state.stage1.outputs.sqs_queue_url
         }
       ]
     }
