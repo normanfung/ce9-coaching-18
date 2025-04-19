@@ -196,3 +196,14 @@ resource "aws_ecs_service" "multi_app_service" {
     assign_public_ip = true
   }
 }
+
+
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/${local.prefix}-multi-app"
+  retention_in_days = 7
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_logs_attach" {
+  role       = aws_iam_role.ecs_task_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
