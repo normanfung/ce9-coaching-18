@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5002
 
 #Start flask app
-CMD ["python", "flask_s3_app.py"]
+CMD ["python", "flask_sqs_app.py"]
